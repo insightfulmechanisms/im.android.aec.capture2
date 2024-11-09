@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.welie.blessed'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 27
+        targetSdk 34
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.mockk:mockk:1.13.4'
+    testImplementation "org.robolectric:robolectric:4.10.3"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.weliem'
+                artifactId = 'blessed-kotlin'
+                version = '3.0.0'
+            }
+        }
+    }
+}
